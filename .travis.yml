@@ -1,0 +1,13 @@
+sudo: false
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+before_install: de.rnd7.steelseries
+install: mvn install 
+
+cache:
+  directories:
+  - $HOME/.m2
