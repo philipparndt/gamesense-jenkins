@@ -5,7 +5,7 @@ language: java
 jdk:
   - oraclejdk8
 
-before_install: de.rnd7.steelseries
+before_install: cd de.rnd7.steelseries
 install: mvn install 
 
 cache:
