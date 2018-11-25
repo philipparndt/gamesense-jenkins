@@ -8,10 +8,12 @@ import java.util.Map.Entry;
 import de.rnd7.steelseries.jenkins.types.Color;
 import de.rnd7.steelseries.jenkins.types.ColorRange;
 import de.rnd7.steelseries.jenkins.types.ColorRangeHandler;
+import de.rnd7.steelseries.jenkins.types.DeviceType;
 import de.rnd7.steelseries.jenkins.types.Endpoints;
 import de.rnd7.steelseries.jenkins.types.EventDefinition;
 import de.rnd7.steelseries.jenkins.types.GameDefinition;
 import de.rnd7.steelseries.jenkins.types.GameEvent;
+import de.rnd7.steelseries.jenkins.types.Zone;
 
 public class JenkinsGame {
 	private static final int HALF_RANGE = 5;
@@ -24,6 +26,9 @@ public class JenkinsGame {
 			.comparing(entry -> entry.getKey().getValue());
 
 	private final Map<JenkinsStatus, Color> colors = new HashMap<>();
+
+	private DeviceType deviceType = DeviceType.MOUSE;
+	private Zone zone = Zone.ALL;
 	
 	public JenkinsGame() {
 		initDefaultColors();
@@ -42,6 +47,18 @@ public class JenkinsGame {
 
 	public JenkinsGame setColor(JenkinsStatus status, Color color) {
 		colors.put(status, color);
+		
+		return this;
+	}
+	
+	public JenkinsGame setDeviceType(DeviceType deviceType) {
+		this.deviceType = deviceType;
+		
+		return this;
+	}
+	
+	public JenkinsGame setZone(Zone zone) {
+		this.zone = zone;
 		
 		return this;
 	}
@@ -81,12 +98,13 @@ public class JenkinsGame {
 		.map(entry -> createRange(entry.getKey(), entry.getValue()))
 		.toArray(i -> new ColorRange[i]);
 		
-		final EventDefinition event = new EventDefinition(JENKINS, JENKINS_HEALTH, new ColorRangeHandler(ranges));
+		final EventDefinition event = new EventDefinition(JENKINS, JENKINS_HEALTH, 
+				new ColorRangeHandler(deviceType, zone, ranges));
 		SteelseriesUtil.send(Endpoints.BIND_GAME_EVENT, event);
 	}
 	
 	private ColorRange createRange(JenkinsStatus status, Color color) {
-		final int value = JenkinsStatus.FAILED.getValue();
+		final int value = status.getValue();
 		return new ColorRange(value, value + HALF_RANGE * 2, color);
 	}
 
