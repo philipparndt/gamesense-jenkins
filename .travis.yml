@@ -6,7 +6,15 @@ jdk:
   - oraclejdk8
 
 before_install: cd de.rnd7.steelseries
+
 install: mvn install 
+
+deploy:
+  provider: script
+  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
+  skip_cleanup: true
+  on:
+    tags: true
 
 cache:
   directories:
