@@ -43,7 +43,7 @@ game.create();
 game.red();
 ```
 
-Note that you will need to send
+Note that you will need to call
 ```java
 game.sendHearbeat();
 ```
