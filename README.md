@@ -64,8 +64,8 @@ JenkinsGame game = new JenkinsGame()
 # Keyboard color
 
 ```java
-		 JenkinsGame game = new JenkinsGame()
-		 .setDeviceType(DeviceType.KEYBOARD)
-		 .create()
-		 .setStatus(JenkinsStatus.SUCCESSFULLY);
+ JenkinsGame game = new JenkinsGame()
+ .setDeviceType(DeviceType.KEYBOARD)
+ .create()
+ .setStatus(JenkinsStatus.SUCCESSFULLY);
 ```
