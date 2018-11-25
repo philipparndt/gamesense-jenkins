@@ -31,7 +31,7 @@ Add the following dependency to your `pom.xml`file:
 <dependency>
   <groupId>de.rnd7.buildlight.steelseries</groupId>
   <artifactId>de.rnd7.buildlight.steelseries</artifactId>
-  <version>0.3.2</version>
+  <version>0.5.0</version>
 </dependency>
 ```
 
@@ -40,14 +40,32 @@ Add the following dependency to your `pom.xml`file:
 ```java
 JenkinsGame game = new JenkinsGame();
 if (game.isAvailable()) {
-  game.create();
-  game.red();
+  game.create()
+  .setStatus(JenkinsStatus.SUCCESSFULLY);
 }
 ```
 
 Note that you will need to call
 ```java
-game.sendHeartbeat();
+game.heartbeat();
 ```
 
 every 15 secounds in order to keep the color alive. Otherwise the steelseries driver will reset the color.
+
+# Custom colors
+
+```java
+JenkinsGame game = new JenkinsGame()
+		 .setColor(JenkinsStatus.SUCCESSFULLY, new Color(0xFF, 0x42, 0x0D))
+		 .create()
+		 .setStatus(JenkinsStatus.SUCCESSFULLY);
+```
+
+# Keyboard color
+
+```java
+		 JenkinsGame game = new JenkinsGame()
+		 .setDeviceType(DeviceType.KEYBOARD)
+		 .create()
+		 .setStatus(JenkinsStatus.SUCCESSFULLY);
+```
