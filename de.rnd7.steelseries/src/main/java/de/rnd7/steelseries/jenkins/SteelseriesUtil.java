@@ -19,7 +19,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
 
-public class SteelseriesUtil {
+class SteelseriesUtil {
 
 	private static String sseAdr;
 

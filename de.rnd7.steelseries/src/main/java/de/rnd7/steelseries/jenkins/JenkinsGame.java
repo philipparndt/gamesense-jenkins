@@ -17,6 +17,10 @@ public class JenkinsGame {
 	public JenkinsGame() {
 	}
 	
+	public boolean isAvailable() {
+		return SteelseriesUtil.isAvailable();
+	}
+
 	public JenkinsGame create() {
 		createGame(JENKINS);
 		createEvent();
@@ -30,7 +34,7 @@ public class JenkinsGame {
 		return this;
 	}
 	
-	public JenkinsGame sendHearbeat() {
+	public JenkinsGame sendHeartbeat() {
 		SteelseriesUtil.send(Endpoints.GAME_HEARTBEAT, new GameDefinition(JENKINS));
 		
 		return this;
