@@ -42,7 +42,6 @@ JenkinsGame game = new JenkinsGame();
 if (game.isAvailable()) {
   game.create();
   game.red();
-  game.sendHeartbeat();
 }
 ```
 
