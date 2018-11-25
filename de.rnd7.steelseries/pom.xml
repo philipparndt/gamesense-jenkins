@@ -7,12 +7,10 @@
 	<parent>
 		<groupId>de.rnd7.buildlight.steelseries</groupId>
 		<artifactId>de.rnd7.buildlight.steelseries.parent</artifactId>
-		<version>0.3.2</version>
+		<version>0.4.0</version>
 	</parent>
 
-	<groupId>de.rnd7.buildlight.steelseries</groupId>
 	<artifactId>de.rnd7.buildlight.steelseries</artifactId>
-	<version>0.3.2</version>
 
 	<packaging>jar</packaging>
 
