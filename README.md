@@ -38,9 +38,12 @@ Add the following dependency to your `pom.xml`file:
 # Example usage
 
 ```java
-JenkinsGame game = new JenkinsGame();
-game.create();
-game.red();
+if (SteelseriesUtil.isAvailable()) {
+  JenkinsGame game = new JenkinsGame();
+  game.create();
+  game.red();
+  game.sendHearbeat();
+}
 ```
 
 Note that you will need to call
