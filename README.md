@@ -42,3 +42,10 @@ JenkinsGame game = new JenkinsGame();
 game.create();
 game.red();
 ```
+
+Note that you will need to send
+```java
+game.sendHearbeat();
+```
+
+every 15 secounds in order to keep the color alive. Otherwise the steelseries driver will reset the color.
