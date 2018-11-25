@@ -48,7 +48,7 @@ if (SteelseriesUtil.isAvailable()) {
 
 Note that you will need to call
 ```java
-game.sendHearbeat();
+game.sendHeartbeat();
 ```
 
 every 15 secounds in order to keep the color alive. Otherwise the steelseries driver will reset the color.
