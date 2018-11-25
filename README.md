@@ -31,7 +31,7 @@ Add the following dependency to your `pom.xml`file:
 <dependency>
   <groupId>de.rnd7.buildlight.steelseries</groupId>
   <artifactId>de.rnd7.buildlight.steelseries</artifactId>
-  <version>0.3.1</version>
+  <version>0.3.2</version>
 </dependency>
 ```
 
