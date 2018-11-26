@@ -4,7 +4,7 @@
 
 [![Quality Gate](https://sonarcloud.io/api/project_badges/quality_gate?project=de.rnd7.buildlight.steelseries%3Ade.rnd7.buildlight.steelseries.parent&branch=master)](https://sonarcloud.io/dashboard?id=de.rnd7.buildlight.steelseries%3Ade.rnd7.buildlight.steelseries.parent)
 
-This library is part of `BuildLight`, a tool that monitors the status of Jenkins jobs. They status is displayed as a tray icon and the color (red, yellow, green) on steel series devices. It can be used as a starting point on how to use the [SteelSeries GameSense™ SDK](https://github.com/SteelSeries/gamesense-sdk) 
+This library is part of `BuildLight`, a tool that monitors the status of Jenkins jobs. They status is displayed as a tray icon and the color (red, yellow, green) on steel series devices. It can be used as a starting point on how to use the [SteelSeries GameSense™ SDK](https://github.com/SteelSeries/gamesense-sdk).
 
 # Repository
 
