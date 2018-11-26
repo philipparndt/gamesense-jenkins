@@ -2,6 +2,8 @@
 
 ![Build status](https://travis-ci.org/philipparndt/gamesense-jenkins.svg?branch=master)
 
+[![Quality Gate](https://sonarcloud.io/api/project_badges/quality_gate?project=de.rnd7.buildlight.steelseries%3Ade.rnd7.buildlight.steelseries.parent&branch=master)]
+
 This is a small demo application that shows how to update the mouse LED of a steelseries mouse to diffent light. 
 It is used as a consumer for a Jenkins Tray icon application.
 
