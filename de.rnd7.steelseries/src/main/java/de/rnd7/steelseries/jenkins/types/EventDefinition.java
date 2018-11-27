@@ -8,6 +8,5 @@ public class EventDefinition extends JSONObject {
 		put("event", name);
 		put("icon_id", 1);
 		put("handlers", handlers);
-	
 	}
 }

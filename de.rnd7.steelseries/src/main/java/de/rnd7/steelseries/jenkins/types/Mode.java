@@ -2,16 +2,16 @@ package de.rnd7.steelseries.jenkins.types;
 
 public enum Mode {
     COLOR("color"),
-    PERCENT("percent"),
-    COUNT("count");
+    COUNT("count"),
+    PERCENT("percent");
 
-    private final String mode;
+    private final String jsonName;
 
-    Mode(String mode) {
-        this.mode = mode;
+    private Mode(String jsonName) {
+        this.jsonName = jsonName;
     }
 
-    public String getMode() {
-        return mode;
-    }
+    public String getJsonName() {
+		return jsonName;
+	}
 }

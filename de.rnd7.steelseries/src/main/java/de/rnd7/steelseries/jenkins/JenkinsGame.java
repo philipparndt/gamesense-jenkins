@@ -1,7 +1,7 @@
 package de.rnd7.steelseries.jenkins;
 
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -25,12 +25,16 @@ public class JenkinsGame {
 	private static final Comparator<Entry<JenkinsStatus, Color>> COMAPRATOR = Comparator
 			.comparing(entry -> entry.getKey().getValue());
 
-	private final Map<JenkinsStatus, Color> colors = new HashMap<>();
+	private final Map<JenkinsStatus, Color> colors = new EnumMap<>(JenkinsStatus.class);
 
 	private DeviceType deviceType = DeviceType.MOUSE;
 	private Zone zone = Zone.ALL;
+
+	private SteelseriesUtil util;
 	
 	public JenkinsGame() {
+		util = new SteelseriesUtil();
+		
 		initDefaultColors();
 	}
 
@@ -42,7 +46,7 @@ public class JenkinsGame {
 	}
 	
 	public boolean isAvailable() {
-		return SteelseriesUtil.isAvailable();
+		return util.isAvailable();
 	}
 
 	public JenkinsGame setColor(JenkinsStatus status, Color color) {
@@ -71,13 +75,13 @@ public class JenkinsGame {
 	}
 
 	public JenkinsGame destroy() {
-		SteelseriesUtil.send(Endpoints.REMOVE_GAME, new GameDefinition(JENKINS));
+		util.send(Endpoints.REMOVE_GAME, new GameDefinition(JENKINS));
 		
 		return this;
 	}
 	
 	public JenkinsGame heartbeat() {
-		SteelseriesUtil.send(Endpoints.GAME_HEARTBEAT, new GameDefinition(JENKINS));
+		util.send(Endpoints.GAME_HEARTBEAT, new GameDefinition(JENKINS));
 		
 		return this;
 	}
@@ -89,7 +93,7 @@ public class JenkinsGame {
 	}
 	
 	private void createGame(final String name) {
-		SteelseriesUtil.send(Endpoints.GAME_METADATA, new GameDefinition(JENKINS));
+		util.send(Endpoints.GAME_METADATA, new GameDefinition(name));
 	}
 	
 	private void createEvent() {
@@ -98,9 +102,8 @@ public class JenkinsGame {
 		.map(entry -> createRange(entry.getKey(), entry.getValue()))
 		.toArray(i -> new ColorRange[i]);
 		
-		final EventDefinition event = new EventDefinition(JENKINS, JENKINS_HEALTH, 
-				new ColorRangeHandler(deviceType, zone, ranges));
-		SteelseriesUtil.send(Endpoints.BIND_GAME_EVENT, event);
+		util.send(Endpoints.BIND_GAME_EVENT, new EventDefinition(JENKINS, JENKINS_HEALTH, 
+				new ColorRangeHandler(deviceType, zone, ranges)));
 	}
 	
 	private ColorRange createRange(JenkinsStatus status, Color color) {
@@ -109,8 +112,8 @@ public class JenkinsGame {
 	}
 
 	private void sendGameEvent(final String eventName, final int value) {
-		SteelseriesUtil.send(Endpoints.GAME_EVENT, 
-				new GameEvent(JENKINS, JENKINS_HEALTH, value));
+		util.send(Endpoints.GAME_EVENT, 
+				new GameEvent(JENKINS, eventName, value));
 	}
 
 }

@@ -4,9 +4,9 @@ import org.json.JSONObject;
 
 public class ColorRangeHandler extends JSONObject {
 	public ColorRangeHandler(DeviceType deviceType, Zone zone, ColorRange... colorRanges) {
-		put("device-type", DeviceType.MOUSE.getType());
-		put("zone", Zone.ALL.getZone());
-		put("mode", Mode.COLOR.getMode());
+		put("device-type", deviceType.getJsonName());
+		put("zone", zone.getJsonName());
+		put("mode", Mode.COLOR.getJsonName());
 		put("color", colorRanges);
 	}
 }

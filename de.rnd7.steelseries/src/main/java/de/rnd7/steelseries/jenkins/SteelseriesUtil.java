@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -21,48 +23,49 @@ import org.json.JSONObject;
 
 class SteelseriesUtil {
 
-	private static String sseAdr;
+	private final Optional<String> address;
+	
+	private static final Logger LOGGER = Logger.getLogger(SteelseriesUtil.class.getName());
+	
+	public SteelseriesUtil() {
+		this.address = configFile().map(this::readConfig);
+	}
+	
+	private String readConfig(File configFile) {
+		try (final BufferedReader coreProps = new BufferedReader(new FileReader(configFile))) {
+			final String jsonAddressStr = coreProps.readLine();
 
-	private static String getAddress() {
-		if (SteelseriesUtil.sseAdr == null) {
-			SteelseriesUtil.sseAdr = configFile().map(configFile -> {
-				try (final BufferedReader coreProps = new BufferedReader(new FileReader(configFile))) {
-					final String jsonAddressStr = coreProps.readLine();
-
-					if (!jsonAddressStr.isEmpty()) {
-						final JSONObject obj = new JSONObject(jsonAddressStr);
-						return sseAdr = "http://" + obj.getString("address");
-					}
-
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-
-				return null;
-			}).orElse(null);
+			if (!jsonAddressStr.isEmpty()) {
+				final JSONObject obj = new JSONObject(jsonAddressStr);
+				return String.format("http://%s", obj.getString("address"));
+			}
+		} catch (final IOException e) {
+			LOGGER.log(Level.WARNING, e.getMessage());
 		}
-		return SteelseriesUtil.sseAdr;
+
+		return null;
 	}
 
-	private static Optional<File> configFile() {
-		String corePropsFileName;
+	private Optional<File> configFile() {
+		final String corePropsFileName;
+		
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			corePropsFileName = System.getenv("PROGRAMDATA") + "\\SteelSeries\\SteelSeries Engine 3\\coreProps.json";
 		} else {
 			corePropsFileName = "/Library/Application Support/" + "SteelSeries Engine 3/coreProps.json";
 		}
 
-		return Optional.of(new File(corePropsFileName)).filter(File::exists);
+		return Optional.of(new File(corePropsFileName))
+				.filter(File::exists);
 	}
 
-	public static JSONObject send(final String extraAddress, final JSONObject jsonData) {
-		final String address = getAddress();
-		if (address == null) {
+	public JSONObject send(final String extraAddress, final JSONObject jsonData) {
+		if (!this.address.isPresent()) {
 			return new JSONObject();
 		}
-
+		
 		try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
-			final URL url = new URL(address + "/" + extraAddress);
+			final URL url = new URL(this.address.get() + "/" + extraAddress);
 			final StringEntity requestEntity = new StringEntity(jsonData.toString(), ContentType.APPLICATION_JSON);
 
 			final HttpPost postMethod = new HttpPost(url.toURI());
@@ -74,11 +77,12 @@ class SteelseriesUtil {
 				return new JSONObject(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 			}
 		} catch (final Exception e) {
+			LOGGER.log(Level.WARNING, e.getMessage());
 			return new JSONObject();
 		}
 	}
 
-	public static boolean isAvailable() {
-		return getAddress() != null;
+	public boolean isAvailable() {
+		return this.address.isPresent();
 	}
 }

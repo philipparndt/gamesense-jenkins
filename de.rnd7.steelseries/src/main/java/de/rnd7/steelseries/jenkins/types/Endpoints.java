@@ -6,4 +6,8 @@ public class Endpoints {
 	public static final String REMOVE_GAME = "remove_game";
 	public static final String GAME_METADATA = "game_metadata";
 	public static final String GAME_HEARTBEAT = "game_heartbeat";
+	
+	private Endpoints() {
+		// do nothing
+	}
 }
