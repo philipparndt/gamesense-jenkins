@@ -16,14 +16,12 @@ import de.rnd7.steelseries.jenkins.types.GameEvent;
 import de.rnd7.steelseries.jenkins.types.Zone;
 
 public class JenkinsGame {
-	private static final int HALF_RANGE = 5;
-
 	private static final String JENKINS_HEALTH = "JENKINS_HEALTH";
 
 	private static final String JENKINS  = "Jenkins";
 
 	private static final Comparator<Entry<JenkinsStatus, Color>> COMAPRATOR = Comparator
-			.comparing(entry -> entry.getKey().getValue());
+			.comparing(entry -> entry.getKey().ordinal());
 
 	private final Map<JenkinsStatus, Color> colors = new EnumMap<>(JenkinsStatus.class);
 
@@ -33,11 +31,17 @@ public class JenkinsGame {
 	private SteelseriesUtil util;
 	
 	public JenkinsGame() {
-		util = new SteelseriesUtil();
+		this(new SteelseriesUtil());
 		
 		initDefaultColors();
 	}
-
+	
+	JenkinsGame(SteelseriesUtil util) {
+		this.util = util;
+		
+		initDefaultColors();
+	}
+	
 	private void initDefaultColors() {
 		this.colors.put(JenkinsStatus.FAILED, Color.RED);
 		this.colors.put(JenkinsStatus.WARNING, Color.YELLOW);
@@ -87,7 +91,7 @@ public class JenkinsGame {
 	}
 	
 	public JenkinsGame setStatus(JenkinsStatus status) {
-		sendGameEvent(JENKINS_HEALTH, status.getValue() + HALF_RANGE);
+		sendGameEvent(JENKINS_HEALTH, status.ordinal());
 		
 		return this;
 	}
@@ -107,8 +111,8 @@ public class JenkinsGame {
 	}
 	
 	private ColorRange createRange(JenkinsStatus status, Color color) {
-		final int value = status.getValue();
-		return new ColorRange(value, value + HALF_RANGE * 2, color);
+		final int value = status.ordinal();
+		return new ColorRange(value, value, color);
 	}
 
 	private void sendGameEvent(final String eventName, final int value) {

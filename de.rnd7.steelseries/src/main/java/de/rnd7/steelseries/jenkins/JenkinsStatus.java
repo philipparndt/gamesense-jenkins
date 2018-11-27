@@ -5,8 +5,4 @@ public enum JenkinsStatus {
 	WARNING,
 	SUCCESSFULLY,
 	UNKNOWN;
-		
-	public int getValue() {
-		return ordinal() * 10;
-	}
 }
