@@ -32,8 +32,6 @@ public class JenkinsGame {
 	
 	public JenkinsGame() {
 		this(new SteelseriesUtil());
-		
-		initDefaultColors();
 	}
 	
 	JenkinsGame(SteelseriesUtil util) {
